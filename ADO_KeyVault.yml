@@ -1,0 +1,25 @@
+parameters:
+- name: 'armServiceConnection'
+  type: string
+
+- name: 'KeyVaultName'
+  type: string
+
+- name: 'SecretsFilter'
+  type: string
+  default: '*'
+
+- name: 'RunAsPreJob'
+  type: boolean
+  default: false
+
+steps:
+
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: ${{parameters.armServiceConnection}} # string. Alias: ConnectedServiceName. Required. Azure subscription. 
+    KeyVaultName: ${{parameters.KeyVaultName}} # string. Required. Key vault. 
+    SecretsFilter: ${{parameters.SecretsFilter}} # string. Required. Secrets filter. Default: *.
+    RunAsPreJob: ${{parameters.RunAsPreJob}} # boolean. Make secrets available to whole job. Default: false.
+  name: AzureKeyVault
+  displayName: "Azure Key Vault Task"
